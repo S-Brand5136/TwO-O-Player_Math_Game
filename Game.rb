@@ -6,6 +6,7 @@ def initialize
   @player1 = {}
   @player2 = {}
   @current_player = {}
+  @question = Questions.new
 end
 
 def start_game
@@ -14,10 +15,8 @@ def start_game
   @player2 = create_player
   puts "Game start!"
 
-  questions = Questions.new
-
   while @game_start do
-    new_turn(questions)
+    new_turn(@question)
 
     if (@current_player.lives == 0)
       @current_player == @player1 ? @winner = @player2 : @winner = @player1
@@ -29,16 +28,16 @@ def start_game
     @current_player = @player1
   end
 
-end_game
+  end_game
 end
 
 def new_turn(questions)
   puts "----- NEW TURN ------"
-  questions.gen_question
-  puts questions.print_question
+  @question.gen_question
+  puts @question.print_question
   answer = gets.chomp.to_i
   
-  if(questions.check_answer answer) 
+  if(@question.check_answer answer) 
     return puts "#{@current_player.name}: Well done! You got the correct answer"
   end
   
